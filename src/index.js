@@ -1,2 +1,2 @@
-import './server'
-import './db'
+import './server';
+import './db';
