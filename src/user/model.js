@@ -42,6 +42,12 @@ const UserSchema = mongoose.Schema({
       ref: 'package',
     },
   ],
+  installed: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'version',
+    },
+  ],
 }, {
   timestamps: true,
 });
