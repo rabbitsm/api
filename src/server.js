@@ -3,6 +3,8 @@ import chalk from 'chalk';
 import CFonts from 'cfonts';
 import morgan from 'morgan';
 
+import Router from './routes';
+
 const server = restify.createServer();
 
 // logging
@@ -22,6 +24,8 @@ server.use(restify.plugins.queryParser({
 }));
 server.use(restify.plugins.bodyParser());
 server.use(restify.plugins.gzipResponse());
+
+Router(server);
 
 server.listen(process.env.SERVER_PORT, () => {
   CFonts.say('RSM API', {

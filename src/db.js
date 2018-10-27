@@ -9,7 +9,7 @@ mongoose.connect(DB_URL, {
 
 const { connection } = mongoose;
 
-connection.on('open', () => {
+connection.on('connected', () => {
   console.log(chalk.greenBright('> MongoDB Connected'));
 });
 
