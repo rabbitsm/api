@@ -30,6 +30,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     enum: ['Individual', 'Organization'],
     index: true,
+    default: 'Individual',
   },
   social: {
     twitter: String,
