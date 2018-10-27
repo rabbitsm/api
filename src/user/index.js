@@ -1,10 +1,15 @@
+import bcrypt from 'bcrypt';
 import UserModel from './model';
 import encode from '../token/encode';
 
 const User = {};
 
 User.create = async function create(req, res) {
-  const user = new UserModel(req.body);
+  const rounds = process.env.ROUNDS;
+
+  const hashPassword = await bcrypt.hash(req.body.password, rounds);
+  const data = Object.assign({}, req.body, { password: hashPassword });
+  const user = new UserModel(data);
   try {
     const newUser = await user.save(user);
     try {

@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import UserModel from '../user/model';
 import encode from '../token/encode';
 
@@ -10,7 +11,7 @@ Auth.create = async function create(req, res) {
   } = req.body;
   try {
     const user = await UserModel.findOne({ username });
-    if (user.password === password) {
+    if (await bcrypt.compare(password, user.password)) {
       try {
         const token = await encode({
           _id: user._id,

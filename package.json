@@ -6,6 +6,7 @@
   "author": "maddhruv <dhruvjainpenny@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^3.0.2",
     "cfonts": "^2.2.2",
     "chalk": "^2.4.1",
     "dotenv-safe": "^6.1.0",
