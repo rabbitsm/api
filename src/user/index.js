@@ -1,35 +1,59 @@
 import UserModel from './model';
+import encode from '../token/encode';
 
 const User = {};
 
-User.create = function create(req, res) {
+User.create = async function create(req, res) {
   const user = new UserModel(req.body);
-
-  user.save((err) => {
-    if (err) throw err;
-    res.send('created');
-  });
+  try {
+    const newUser = await user.save(user);
+    try {
+      const token = await encode({
+        _id: newUser._id,
+        username: newUser.username,
+      });
+      await res.send({
+        user,
+        token,
+      });
+    } catch (err) {
+      console.error(err);
+      res.send(err);
+    }
+  } catch (err) {
+    console.error(err);
+    res.send(err);
+  }
 };
 
-User.read = function read(req, res) {
-  UserModel.findById(req.auth._id, (err, user) => {
-    if (err) throw err;
+User.read = async function read(req, res) {
+  try {
+    const user = await UserModel.findById(req.auth._id);
     res.send(user);
-  });
+  } catch (err) {
+    console.error(err);
+    res.send(err);
+  }
 };
 
-User.update = function update(req, res) {
-  UserModel.findByIdAndUpdate(req.auth._id, req.body, (err) => {
-    if (err) throw err;
-    res.send('updated');
-  });
+User.update = async function update(req, res) {
+  try {
+    const user = await UserModel.findByIdAndUpdate(req.auth._id);
+    res.send(user);
+  } catch (err) {
+    console.error(err);
+    res.send(err);
+  }
 };
 
-User.remove = function remove(req, res) {
-  UserModel.findByIdAndDelete(req.auth._id, (err) => {
-    if (err) throw err;
-    res.send('deleted');
-  });
+User.remove = async function remove(req, res) {
+  try {
+    const user = await UserModel.findByIdAndDelete(req.auth._id);
+    res.send(user);
+  } catch (err) {
+    console.error(err);
+    res.send(err);
+  }
 };
 
 export default User;
