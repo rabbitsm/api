@@ -35,6 +35,14 @@ const UserSchema = mongoose.Schema({
     twitter: String,
     github: String,
   },
+  packages: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'package',
+    },
+  ],
+}, {
+  timestamps: true,
 });
 
 const UserModel = mongoose.model('user', UserSchema);

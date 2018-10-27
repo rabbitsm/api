@@ -1,4 +1,6 @@
 import User from './user';
+import Package from './package';
+import Version from './versions';
 
 function Router(server) {
   server.get('/users', User.read);
