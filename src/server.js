@@ -6,7 +6,6 @@ import morgan from 'morgan';
 const server = restify.createServer();
 
 // logging
-
 server.use(morgan(`- >\
   ${chalk.blue(':date[web]')}\
   ${chalk.yellow(':method')}\
@@ -15,6 +14,14 @@ server.use(morgan(`- >\
   ${chalk.green(':response-time[3]')}\
   ${chalk.magenta(':status')}\
 `));
+
+// plugins and middlewares
+server.use(restify.plugins.acceptParser(server.acceptable));
+server.use(restify.plugins.queryParser({
+  mapParams: false,
+}));
+server.use(restify.plugins.bodyParser());
+server.use(restify.plugins.gzipResponse());
 
 server.listen(process.env.SERVER_PORT, () => {
   CFonts.say('RSM API', {
